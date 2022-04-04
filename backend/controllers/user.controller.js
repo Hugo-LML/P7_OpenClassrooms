@@ -110,9 +110,9 @@ module.exports.getUser = (req, res, next) => {
 }
 
 module.exports.updateUser = (req, res, next) => {
-    const pseudo = req.body.pseudo;
+    const pseudoUpdated = req.body.pseudo;
     const id = req.params.id;
-    const sql = `UPDATE users SET pseudo='${pseudo}' WHERE id='${id}'`;
+    const sql = `UPDATE users SET pseudo='${pseudoUpdated}' WHERE id='${id}'`;
     db.query(sql, (err, result) => {
         if (err) {
             res.status(400).json({err});

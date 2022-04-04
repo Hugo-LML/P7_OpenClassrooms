@@ -9,4 +9,8 @@ router.post('/', auth, postCtrl.createPost);
 router.put('/:id', auth, postCtrl.updatePost);
 router.delete('/:id', auth, postCtrl.deletePost);
 
+router.patch('/likeUnlike/:id', auth, postCtrl.likeUnlike);
+router.post('/postLikedByUser/:id', auth, postCtrl.postLikedByUser);
+router.get('/likeUnlike/:id', auth, postCtrl.countLikes);
+
 module.exports = router;
