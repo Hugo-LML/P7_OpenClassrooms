@@ -14,21 +14,35 @@ module.exports.readPost = (req, res, next) => {
 
 module.exports.createPost = (req, res, next) => {
     const post = {
-        poster_id: req.body.posterId,
+        poster_id: req.body.poster_id,
         message: req.body.message,
-        image: req.body.image,
+        image: "No img",
         video: req.body.video,
         date: req.body.date
     }
-    const sql = `INSERT INTO posts (poster_id, message, image, video, date) VALUES ('${post.poster_id}', '${post.message}', '${post.image}', '${post.video}', '${post.date}')`;
-    db.query(sql, (err, result) => {
-        if (err) {
-            res.status(400).json({err});
-        }
-        else {
-            res.status(201).json(result);
-        }
-    });
+    if (req.file) {
+        post.image = `${req.protocol}.//${req.get('host')}/images/${req.file.filename}`;
+        const sql = `INSERT INTO posts (poster_id, message, image, video, date) VALUES ('${post.poster_id}', '${post.message}', '${post.image}', '${post.video}', '${post.date}')`;
+        db.query(sql, (err, result) => {
+            if (err) {
+                res.status(400).json({err});
+            }
+            else {
+                res.status(201).json(result);
+            }
+        });
+    }
+    else {
+        const sql = `INSERT INTO posts (poster_id, message, image, video, date) VALUES ('${post.poster_id}', '${post.message}', '${post.image}', '${post.video}', '${post.date}')`;
+        db.query(sql, (err, result) => {
+            if (err) {
+                res.status(400).json({err});
+            }
+            else {
+                res.status(201).json(result);
+            }
+        });
+    }
 }
 
 module.exports.updatePost = (req, res, next) => {
