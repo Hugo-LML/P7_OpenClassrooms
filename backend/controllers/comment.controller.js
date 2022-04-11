@@ -14,8 +14,8 @@ module.exports.readComments = (req, res, next) => {
 
 module.exports.createComment = (req, res, next) => {
     const {commenter_id, postCommented_id, pseudo, message, date} = req.body;
-    const sql = `INSERT INTO comments (commenter_id, postCommented_id, pseudo, message, date) VALUES ('${commenter_id}', '${postCommented_id}', '${pseudo}', '${message}', '${date}')`;
-    db.query(sql, (err, result) => {
+    const sql = `INSERT INTO comments (commenter_id, postCommented_id, pseudo, message, date) VALUES (?, ?, ?, ?, ?)`;
+    db.query(sql, [commenter_id, postCommented_id, pseudo, message, date], (err, result) => {
         if (err) {
             res.status(400).json({err});
         }
@@ -27,8 +27,8 @@ module.exports.createComment = (req, res, next) => {
 
 module.exports.deleteComment = (req, res, next) => {
     const id = req.params.id;
-    const sql = `DELETE FROM comments WHERE id='${id}'`;
-    db.query(sql, (err, result) => {
+    const sql = `DELETE FROM comments WHERE id=?`;
+    db.query(sql, [id], (err, result) => {
         if (err) {
             res.status(400).json({err});
         }

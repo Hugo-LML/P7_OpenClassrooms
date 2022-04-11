@@ -1,4 +1,5 @@
 const db = require('../config/database').getDB();
+const fs = require('fs');
 
 module.exports.readPost = (req, res, next) => {
     const sql = `SELECT * FROM posts`;
@@ -22,8 +23,8 @@ module.exports.createPost = (req, res, next) => {
     }
     if (req.file) {
         post.image = `${req.protocol}.//${req.get('host')}/images/${req.file.filename}`;
-        const sql = `INSERT INTO posts (poster_id, message, image, video, date) VALUES ('${post.poster_id}', '${post.message}', '${post.image}', '${post.video}', '${post.date}')`;
-        db.query(sql, (err, result) => {
+        const sql = `INSERT INTO posts (poster_id, message, image, video, date) VALUES (?, ?, ?, ?, ?)`;
+        db.query(sql, [post.poster_id, post.message, post.image, post.video, post.date], (err, result) => {
             if (err) {
                 res.status(400).json({err});
             }
@@ -33,8 +34,8 @@ module.exports.createPost = (req, res, next) => {
         });
     }
     else {
-        const sql = `INSERT INTO posts (poster_id, message, image, video, date) VALUES ('${post.poster_id}', '${post.message}', '${post.image}', '${post.video}', '${post.date}')`;
-        db.query(sql, (err, result) => {
+        const sql = `INSERT INTO posts (poster_id, message, image, video, date) VALUES (?, ?, ?, ?, ?)`;
+        db.query(sql, [post.poster_id, post.message, post.image, post.video, post.date], (err, result) => {
             if (err) {
                 res.status(400).json({err});
             }
@@ -47,27 +48,57 @@ module.exports.createPost = (req, res, next) => {
 
 module.exports.updatePost = (req, res, next) => {
     const messageUpdated = req.body.message;
+    const videoUpdated = req.body.video;
     const id = req.params.id;
-    const sql = `UPDATE posts SET message='${messageUpdated}' WHERE id='${id}'`;
-    db.query(sql, (err, result) => {
-        if (err) {
-            res.status(400).json({err});
-        }
-        else {
-            res.status(200).json(result);
-        }
-    });
+    if (req.file) {
+        const imageUpdated = `${req.protocol}.//${req.get('host')}/images/${req.file.filename}`;
+        const sql = `UPDATE posts SET message=?, image=?, video=? WHERE id=?`;
+        db.query(sql, [messageUpdated, imageUpdated, videoUpdated, id], (err, result) => {
+            if (err) {
+                res.status(400).json({err});
+            }
+            else {
+                res.status(200).json(result);
+            }
+        });
+    }
+    else {
+        const sql = `UPDATE posts SET message=?, video=? WHERE id=?`;
+        db.query(sql, [messageUpdated, videoUpdated, id], (err, result) => {
+            if (err) {
+                res.status(400).json({err});
+            }
+            else {
+                res.status(200).json(result);
+            }
+        });
+    }
 }
 
 module.exports.deletePost = (req, res, next) => {
     const id = req.params.id;
-    const sql = `DELETE FROM posts WHERE id='${id}'`;
-    db.query(sql, (err, result) => {
+    const sqlSelect = `SELECT image FROM posts WHERE id=?`;
+    db.query(sqlSelect, [id], (err, result) => {
         if (err) {
             res.status(400).json({err});
         }
         else {
-            res.status(200).json(result);
+            if (result[0] != "No img") {
+                const splittedUrl = result[0].image.split('/images/');
+                const imgName = splittedUrl[1];
+                fs.unlink(`images/${imgName}`, () => {
+                    console.log('Photo supprimée !');
+                });
+            }
+            const sqlDelete = `DELETE FROM posts WHERE id=?`;
+            db.query(sqlDelete, [id], (err, result) => {
+                if (err) {
+                    res.status(400).json({err});
+                }
+                else {
+                    res.status(200).json(result);
+                }
+            });
         }
     });
 }
@@ -76,15 +107,15 @@ module.exports.deletePost = (req, res, next) => {
 module.exports.likeUnlike = (req, res, next) => {
     const userID = req.body.user;
     const postID = req.params.id;
-    const sqlSelect = `SELECT * FROM likes WHERE liker_id='${userID}' AND postLiked_id='${postID}'`;
-    db.query(sqlSelect, (err, result) => {
+    const sqlSelect = `SELECT * FROM likes WHERE liker_id=? AND postLiked_id=?`;
+    db.query(sqlSelect, [userID, postID], (err, result) => {
         if (err) {
             res.status(400).json({err});
         }
         else {
             if (result.length != 0) {
-                const sqlDelete = `DELETE FROM likes WHERE liker_id='${userID}' AND postLiked_id='${postID}'`;
-                db.query(sqlDelete, (err, result) => {
+                const sqlDelete = `DELETE FROM likes WHERE liker_id=? AND postLiked_id=?`;
+                db.query(sqlDelete, [userID, postID], (err, result) => {
                     if (err) {
                         res.status(400).json({err});
                     }
@@ -94,8 +125,8 @@ module.exports.likeUnlike = (req, res, next) => {
                 });
             }
             else {
-                const sqlInsert = `INSERT INTO likes (liker_id, postLiked_id) VALUES ('${userID}', '${postID}')`;
-                db.query(sqlInsert, (err, result) => {
+                const sqlInsert = `INSERT INTO likes (liker_id, postLiked_id) VALUES (?, ?)`;
+                db.query(sqlInsert, [userID, postID], (err, result) => {
                     if (err) {
                         res.status(400).json({err});
                     }
@@ -111,8 +142,8 @@ module.exports.likeUnlike = (req, res, next) => {
 module.exports.postLikedByUser = (req, res, next) => {
     const userID = req.body.user;
     const postID = req.params.id;
-    const sql = `SELECT * FROM likes WHERE liker_id='${userID}' AND postLiked_id='${postID}'`;
-    db.query(sql, (err, result) => {
+    const sql = `SELECT * FROM likes WHERE liker_id=? AND postLiked_id=?`;
+    db.query(sql, [userID, postID], (err, result) => {
         if (err) {
             res.status(400).json({err});
         }
@@ -124,8 +155,8 @@ module.exports.postLikedByUser = (req, res, next) => {
 
 module.exports.countLikes = (req, res, next) => {
     const postID = req.params.id;
-    const sql = `SELECT COUNT(*) AS totalLikes FROM likes WHERE postLiked_id='${postID}'`;
-    db.query(sql, (err, result) => {
+    const sql = `SELECT COUNT(*) AS totalLikes FROM likes WHERE postLiked_id=?`;
+    db.query(sql, [postID], (err, result) => {
         if (err) {
             res.status(400).json({err});
         }

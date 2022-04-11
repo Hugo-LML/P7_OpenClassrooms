@@ -1,8 +1,7 @@
 const http = require("http");
 const app = require("./app");
-
 require('path');
-require('dotenv').config({path: require('find-config')('.env')})
+require('dotenv').config({path: require('find-config')('.env')});
 
 const normalizePort = (val) => {
     const port = parseInt(val, 10);

@@ -14,8 +14,8 @@ module.exports.getAllUsers = (req, res, next) => {
 
 module.exports.getUser = (req, res, next) => {
     const id = req.params.id;
-    const sql = `SELECT * FROM users WHERE id='${id}'`;
-    db.query(sql, (err, result) => {
+    const sql = `SELECT * FROM users WHERE id=?`;
+    db.query(sql, [id], (err, result) => {
         if (err) {
             res.status(400).json({err});
         }
@@ -28,8 +28,8 @@ module.exports.getUser = (req, res, next) => {
 module.exports.updateUser = (req, res, next) => {
     const pseudoUpdated = req.body.pseudo;
     const id = req.params.id;
-    const sql = `UPDATE users SET pseudo='${pseudoUpdated}' WHERE id='${id}'`;
-    db.query(sql, (err, result) => {
+    const sql = `UPDATE users SET pseudo=? WHERE id=?`;
+    db.query(sql, [pseudoUpdated, id], (err, result) => {
         if (err) {
             res.status(400).json({err});
         }
@@ -41,8 +41,8 @@ module.exports.updateUser = (req, res, next) => {
 
 module.exports.deleteUser = (req, res, next) => {
     const id = req.params.id;
-    const sql = `DELETE FROM users WHERE id='${id}'`;
-    db.query(sql, (err, result) => {
+    const sql = `DELETE FROM users WHERE id=?`;
+    db.query(sql, [id], (err, result) => {
         if (err) {
             res.status(400).json({err});
         }

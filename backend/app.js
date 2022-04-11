@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const helmet = require('helmet');
 
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
@@ -19,6 +20,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.use(helmet());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
