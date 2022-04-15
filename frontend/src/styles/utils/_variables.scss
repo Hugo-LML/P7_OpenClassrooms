@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "poppins";
+    src: url(../assets/fonts/poppins/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: "lato";
+    src: url(../assets/fonts/lato/Lato-Regular.ttf);
+}
+
+$font-title: "poppins", sans-serif;
+$font-text: "lato", sans-serif;
