@@ -18,13 +18,16 @@ const Log = () => {
     }
 
     return (
-        <div>
-            <ul>
-                <li onClick={handleModals} id="register">S'inscrire</li>
-                <li onClick={handleModals} id="login">Se connecter</li>
-            </ul>
-            {signUpModal && <SignUpForm />}
-            {signInModal && <SignInForm />}
+        <div className="profil-body">
+            <img src="./img/icon-above-font.svg" alt="logo-groupomania" />
+            <div className='form-auth'>
+                <ul>
+                    <li onClick={handleModals} id="register">S'inscrire</li>
+                    <li onClick={handleModals} id="login">Se connecter</li>
+                </ul>
+                {signUpModal && <SignUpForm />}
+                {signInModal && <SignInForm />}
+            </div>
         </div>
     );
 };
