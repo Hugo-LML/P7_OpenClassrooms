@@ -10,13 +10,12 @@ const App = () => {
 		const fetchToken = async () => {
 			await axios.get(`${process.env.REACT_APP_API_URL}api/jwtid`, {withCredentials: true})
 				.then((res) => {
-					console.log(res);
-					setUid(res.data);
+					setUid(res.data.myID);
 				})
-				.catch((err) => console.log('No token'));
+				.catch((err) => console.log(err));
 		};
 		fetchToken();
-	}, []);
+	}, [uid]);
 
 	return (
 		<UidContext.Provider value={uid}>

@@ -11,7 +11,7 @@ module.exports.signUp = async (req, res, next) => {
     db.query(sql, [pseudo, email, cryptedPassword], (err, result) => {
         if (err) {
             console.log(err);
-            res.status(400).json({err});
+            res.status(400).json({errorEmail: 'Cette adresse mail est déjà utilisée', errorPassword: ''});
         }
         else if (!validator.isEmail(email)) {
             const sql = `DELETE FROM users WHERE pseudo=? AND email=? AND password=?`;
@@ -23,7 +23,19 @@ module.exports.signUp = async (req, res, next) => {
                     console.log(result);
                 }
             });
-            res.status(400).json({error: 'Rentrez une adresse mail valide !'});
+            res.status(400).json({errorEmail: 'Rentrez une adresse mail valide !', errorPassword: ''});
+        }
+        else if (password.length < 6) {
+            const sql = `DELETE FROM users WHERE pseudo=? AND email=? AND password=?`;
+            db.query(sql, [pseudo, email, cryptedPassword], (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log(result);
+                }
+            });
+            res.status(400).json({errorPassword: 'Le mot de passe doit contenir au moins 6 caractères !', errorEmail : ''});
         }
         else {
             res.status(201).json(result);
