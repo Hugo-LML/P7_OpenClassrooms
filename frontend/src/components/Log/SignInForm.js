@@ -12,20 +12,13 @@ const SignInForm = () => {
         axios.post(`${process.env.REACT_APP_API_URL}api/auth/login`, {
             email, //Shorthand for email: email
             password //Shorthand for password: password
-        })
+        }, {withCredentials: true})
         .then((res) => {
-            if (res.data.errors) {
-                emailError.innerHTML = res.data.errors.email;
-                passwordError.innerHTML = res.data.errors.password;
-            }
-            else {
-                window.location = '/';
-            }
+            window.location = '/';
         })
         .catch((err) => {
             emailError.innerHTML = err.response.data.errorEmail;
             passwordError.innerHTML = err.response.data.errorPassword;
-            console.log(err.response);
             console.log(err);
         });
     };
