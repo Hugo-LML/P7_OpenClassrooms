@@ -23,8 +23,8 @@ const SignInForm = () => {
             }
         })
         .catch((err) => {
-            emailError.innerHTML = err.response.data.error;
-            passwordError.innerHTML = err.response.data.error;
+            emailError.innerHTML = err.response.data.errorEmail;
+            passwordError.innerHTML = err.response.data.errorPassword;
             console.log(err.response);
             console.log(err);
         });

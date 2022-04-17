@@ -49,13 +49,13 @@ module.exports.signIn = (req, res, next) => {
         }
         else {
             if (result.length == 0) {
-                res.status(400).json({error: 'Adresse email incorrecte !'});
+                res.status(400).json({errorEmail: 'Adresse email incorrecte !', errorPassword: ''});
             }
             else {
                 bcrypt.compare(password, result[0].password)
                     .then(valid => {
                         if (!valid) {
-                            res.status(400).json({error: 'Mot de passe incorrect !'});
+                            res.status(400).json({errorPassword: 'Mot de passe incorrect !', errorEmail: ''});
                         }
                         else {
                             const token = createToken(result[0].id);
