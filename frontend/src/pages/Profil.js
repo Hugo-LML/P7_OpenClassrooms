@@ -4,7 +4,7 @@ import Log from '../components/Log/Log';
 const Profil = () => {
     return (
         <div>
-            <Log />
+            <Log signIn={false} signUp={true} />
         </div>
     );
 };
