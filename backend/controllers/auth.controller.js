@@ -23,7 +23,7 @@ module.exports.signUp = async (req, res, next) => {
                     console.log(result);
                 }
             });
-            res.status(400).json({errorEmail: 'Rentrez une adresse mail valide !', errorPassword: ''});
+            res.status(400).json({errorEmail: 'Rentrez une adresse mail valide', errorPassword: ''});
         }
         else if (password.length < 6) {
             const sql = `DELETE FROM users WHERE pseudo=? AND email=? AND password=?`;
@@ -35,7 +35,7 @@ module.exports.signUp = async (req, res, next) => {
                     console.log(result);
                 }
             });
-            res.status(400).json({errorPassword: 'Le mot de passe doit contenir au moins 6 caractères !', errorEmail : ''});
+            res.status(400).json({errorPassword: 'Le mot de passe doit contenir au moins 6 caractères', errorEmail : ''});
         }
         else {
             res.status(201).json(result);

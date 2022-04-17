@@ -34,11 +34,12 @@ const SignUpForm = () => {
                 password
             })
                 .then((res) => {
-                    
+                    console.log(res);
                 })
                 .catch((err) => {
-                    pseudoError.innerHTML = 
-                })
+                    emailError.innerHTML = err.response.data.errorEmail;
+                    passwordError.innerHTML = err.response.data.errorPassword;
+                });
         }
     }
     
@@ -51,7 +52,7 @@ const SignUpForm = () => {
             <br />
             <label htmlFor="email">Email</label>
             <br />
-            <input type="email" name="email" id="email" onChange={(e) => setEmail(e.target.value)} value={email} />
+            <input type="text" name="email" id="email" onChange={(e) => setEmail(e.target.value)} value={email} />
             <div className="email error"></div>
             <br />
             <label htmlFor="password">Mot de passe</label>
