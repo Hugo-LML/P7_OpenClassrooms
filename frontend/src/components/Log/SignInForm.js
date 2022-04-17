@@ -13,14 +13,14 @@ const SignInForm = () => {
             email, //Shorthand for email: email
             password //Shorthand for password: password
         }, {withCredentials: true})
-        .then((res) => {
-            window.location = '/';
-        })
-        .catch((err) => {
-            emailError.innerHTML = err.response.data.errorEmail;
-            passwordError.innerHTML = err.response.data.errorPassword;
-            console.log(err);
-        });
+            .then((res) => {
+                window.location = '/';
+            })
+            .catch((err) => {
+                emailError.innerHTML = err.response.data.errorEmail;
+                passwordError.innerHTML = err.response.data.errorPassword;
+                console.log(err);
+            });
     };
 
     return (
