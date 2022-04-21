@@ -6,14 +6,14 @@ import Logout from './Log/Logout';
 
 const Navbar = () => {
     const uid = useContext(UidContext);
-    const userData = useSelector((state) => state.userReducer);
+    const userData = useSelector((state => state.user.value));
 
     return (
         <nav className='navbar'>
             <NavLink end to="/">
                 <img src="./img/icon-left-font-monochrome-black.svg" alt="logo" />
             </NavLink>
-            {uid && userData[0] ? (
+            {uid && userData !== null ? (
                 <>
                     <NavLink end to="/profil">
                         <p>Hello {userData[0].pseudo} !</p>
