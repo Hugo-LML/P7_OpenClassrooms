@@ -9,7 +9,7 @@ export const userSlice = createSlice({
         getUser: (state, action) => {
             state.value = action.payload;
         }
-    }
+    },
 });
 
 export const { getUser } = userSlice.actions;

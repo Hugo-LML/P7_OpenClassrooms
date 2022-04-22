@@ -3,6 +3,7 @@ import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
 
 const Log = (props) => {
+    console.log('Test');
     const [signUpModal, setSignUpModal] = useState(props.signUp);
     const [signInModal, setSignInModal] = useState(props.signIn);
     

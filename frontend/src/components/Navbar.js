@@ -1,12 +1,27 @@
-import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { getUser } from '../features/user.slice';
 import { UidContext } from './AppContext';
 import Logout from './Log/Logout';
+import axios from 'axios';
 
 const Navbar = () => {
     const uid = useContext(UidContext);
-    const userData = useSelector((state => state.user.value));
+
+    const dispatch = useDispatch();
+    const userData = useSelector(state => state.user.value);
+
+    useEffect(() => {
+        console.log('GG');
+        if (uid) {
+            axios.get(`${process.env.REACT_APP_API_URL}api/user/${uid}`, {withCredentials: true})
+            	.then((res) => {
+            		dispatch(getUser(res.data));
+            	})
+            	.catch((err) => console.log(err));
+        }
+    }, [uid, dispatch]);
 
     return (
         <nav className='navbar'>

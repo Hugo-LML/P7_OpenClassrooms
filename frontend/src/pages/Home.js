@@ -1,10 +1,9 @@
 import React from 'react';
+import Thread from '../components/Thread';
 
 const Home = () => {
     return (
-        <div>
-            Hello depuis Home !
-        </div>
+        <Thread />
     );
 };
 
