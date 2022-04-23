@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { getPosts } from '../features/post.slice';
+import Card from './Post/Card';
 
 const Thread = () => {
     const [loadPost, setLoadPost] = useState(true);
@@ -23,7 +24,7 @@ const Thread = () => {
         <div>
             {!loadPost && postData !== null ? (
                 postData.map(post => {
-                    return <div key={post.id}>{post.message}</div>;
+                    return <Card key={post.id} post={post} />;
                 })
             ) : (
                 <p>Loading...</p>

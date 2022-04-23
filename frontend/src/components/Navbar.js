@@ -13,7 +13,6 @@ const Navbar = () => {
     const userData = useSelector(state => state.user.value);
 
     useEffect(() => {
-        console.log('GG');
         if (uid) {
             axios.get(`${process.env.REACT_APP_API_URL}api/user/${uid}`, {withCredentials: true})
             	.then((res) => {
