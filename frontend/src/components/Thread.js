@@ -9,7 +9,7 @@ import { getComments } from '../features/comment.slice';
 const Thread = () => {
     const [loadPost, setLoadPost] = useState(true);
     const dispatch = useDispatch();
-    const postData = useSelector(state => state.post.value);
+    const postData = useSelector(state => state.post.getPostsValue);
 
     useEffect(() => {
         if (loadPost) {
@@ -28,6 +28,12 @@ const Thread = () => {
             .catch(err => console.log(err));
 
         axios.get(`${process.env.REACT_APP_API_URL}api/comment`, {withCredentials: true})
+            .then(res => {
+                dispatch(getComments(res.data));
+            })
+            .catch(err => console.log(err));
+
+        axios.get(`${process.env.REACT_APP_API_URL}api/post/like`, {withCredentials: true})
             .then(res => {
                 dispatch(getComments(res.data));
             })

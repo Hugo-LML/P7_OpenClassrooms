@@ -165,3 +165,15 @@ module.exports.countLikes = (req, res, next) => {
         }
     });
 }
+
+module.exports.countAllLikes = (req, res, next) => {
+    const sql = `SELECT * FROM likes`;
+    db.query(sql, (err, result) => {
+        if (err) {
+            res.status(400).json({err});
+        }
+        else {
+            res.status(200).json(result);
+        }
+    });
+}
