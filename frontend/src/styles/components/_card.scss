@@ -1,0 +1,38 @@
+.card {
+    border: 1px solid red;
+    margin-top: 10px;
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        &__info-poster {
+            display: flex;
+            img {
+                width: 20px;
+                height: 20px;
+            }
+            p {
+                font-weight: 900;
+            }
+        }
+        &__post-date {
+            font-style: italic;
+        }
+    }
+    &__content {
+        &__text {
+            margin-top: 10px;
+        }
+        &__img {
+            display: block;
+            margin: 10px auto;
+            width: 70%;
+            object-fit: cover;
+        }
+        &__video {
+            display: block;
+            margin: 10px auto;
+            width: 70%;
+            object-fit: cover;
+        }
+    }
+}

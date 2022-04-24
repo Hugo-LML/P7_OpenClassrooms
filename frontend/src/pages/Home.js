@@ -3,7 +3,9 @@ import Thread from '../components/Thread';
 
 const Home = () => {
     return (
-        <Thread />
+        <div className='home'>
+            <Thread />
+        </div>
     );
 };
 

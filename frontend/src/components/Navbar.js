@@ -10,7 +10,7 @@ const Navbar = () => {
     const uid = useContext(UidContext);
 
     const dispatch = useDispatch();
-    const userData = useSelector(state => state.user.value);
+    const userData = useSelector(state => state.user.getUserValue);
 
     useEffect(() => {
         if (uid) {
