@@ -9,6 +9,7 @@ const Card = ({ post }) => {
 
     const userData = useSelector(state => state.user.getUserValue);
     const usersData = useSelector(state => state.user.getUsersValue);
+    const commentsData = useSelector(state => state.comment.value);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -56,8 +57,20 @@ const Card = ({ post }) => {
                                 allowFullScreen
                                 title={post._id}
                           ></iframe>
-                          
                         }
+                    </div>
+                    <div className="card__footer">
+                        <div className="card__footer__likes">
+                            <img src="./uploads/icons/thumbs-up-regular.svg" alt="thumbs up" />
+                            
+                        </div>
+                        <div className="card__footer_comments">
+                            <img src="./uploads/icons/message-regular.svg" alt="message" />
+                            {commentsData.map(comment => {
+                                if (comment.postCommented_id === post.id) return comment;
+                                else return null;
+                            })}
+                        </div>
                     </div>
                 </>
             )}
