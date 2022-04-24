@@ -105,7 +105,7 @@ module.exports.deletePost = (req, res, next) => {
 
 
 module.exports.likeUnlike = (req, res, next) => {
-    const userID = req.body.user;
+    const userID = req.body.liker_id;
     const postID = req.params.id;
     const sqlSelect = `SELECT * FROM likes WHERE liker_id=? AND postLiked_id=?`;
     db.query(sqlSelect, [userID, postID], (err, result) => {
