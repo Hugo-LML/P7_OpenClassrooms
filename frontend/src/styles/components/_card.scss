@@ -35,4 +35,23 @@
             object-fit: cover;
         }
     }
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        &__likes {
+            display: flex;
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+        &__comments {
+            display: flex;
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
 }

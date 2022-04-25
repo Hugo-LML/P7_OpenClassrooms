@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { getUser, getUsers } from '../../features/user.slice';
 import { dateParser } from '../Utils';
+import LikeButton from './LikeButton';
 
 const Card = ({ post }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -10,6 +11,7 @@ const Card = ({ post }) => {
     const userData = useSelector(state => state.user.getUserValue);
     const usersData = useSelector(state => state.user.getUsersValue);
     const commentsData = useSelector(state => state.comment.value);
+    const likesData = useSelector(state => state.post.getLikesValue);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -17,6 +19,9 @@ const Card = ({ post }) => {
             setIsLoading(false);
         }
     }, [usersData])
+
+    let counterLike = 0;
+    let counterComment = 0;
     
     return (
         <div className='card'>
@@ -61,15 +66,23 @@ const Card = ({ post }) => {
                     </div>
                     <div className="card__footer">
                         <div className="card__footer__likes">
-                            <img src="./uploads/icons/thumbs-up-regular.svg" alt="thumbs up" />
-                            
+                            {/* <img src="./uploads/icons/thumbs-up-regular.svg" alt="thumbs up" />
+                            {likesData.map(like => {
+                                if (like.postLiked_id === post.id) {
+                                    counterLike += 1;
+                                }
+                            })}
+                            <p>{counterLike}</p> */}
+                            <LikeButton post={post} />
                         </div>
-                        <div className="card__footer_comments">
+                        <div className="card__footer__comments">
                             <img src="./uploads/icons/message-regular.svg" alt="message" />
                             {commentsData.map(comment => {
-                                if (comment.postCommented_id === post.id) return comment;
-                                else return null;
+                                if (comment.postCommented_id === post.id) {
+                                    counterComment += 1;
+                                }
                             })}
+                            <p>{counterComment}</p>
                         </div>
                     </div>
                 </>

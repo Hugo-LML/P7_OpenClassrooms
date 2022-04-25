@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { getPosts } from '../features/post.slice';
+import { getLikes, getPosts } from '../features/post.slice';
 import Card from './Post/Card';
 import { getUsers } from '../features/user.slice';
 import { getComments } from '../features/comment.slice';
@@ -33,9 +33,9 @@ const Thread = () => {
             })
             .catch(err => console.log(err));
 
-        axios.get(`${process.env.REACT_APP_API_URL}api/post/like`, {withCredentials: true})
+        axios.get(`${process.env.REACT_APP_API_URL}api/post/likeUnlike`, {withCredentials: true})
             .then(res => {
-                dispatch(getComments(res.data));
+                dispatch(getLikes(res.data));
             })
             .catch(err => console.log(err));
     }, [loadPost, dispatch]);
