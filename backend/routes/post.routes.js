@@ -14,5 +14,6 @@ router.patch('/likeUnlike/:id', auth, postCtrl.likeUnlike);
 router.post('/postLikedByUser/:id', auth, postCtrl.postLikedByUser);
 router.get('/likeUnlike/:id', auth, postCtrl.countLikes);
 router.get('/likeUnlike', auth, postCtrl.countAllLikes);
+router.get('/likeUnlike/getOneLike/:id', auth, postCtrl.getOneLike);
 
 module.exports = router;

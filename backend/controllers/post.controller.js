@@ -177,3 +177,16 @@ module.exports.countAllLikes = (req, res, next) => {
         }
     });
 }
+
+module.exports.getOneLike = (req, res, next) => {
+    const likeId = req.params.id;
+    const sql = `SELECT * FROM likes WHERE id=?`;
+    db.query(sql, [likeId], (err, result) => {
+        if (err) {
+            res.status(400).json({err});
+        }
+        else {
+            res.status(200).json(result);
+        }
+    });
+}

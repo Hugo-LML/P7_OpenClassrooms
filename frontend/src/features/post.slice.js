@@ -5,7 +5,6 @@ export const postSlice = createSlice({
     initialState: {
         getPostsValue: null,
         getLikesValue: null,
-        setLikeValue: null
     },
     reducers: {
         getPosts: (state, action) => {
@@ -14,13 +13,14 @@ export const postSlice = createSlice({
         getLikes: (state, action) => {
             state.getLikesValue = action.payload;
         },
-        setLike: (state, action) => {
-            
-            // const myLike = state.getLikesValue.find(element => element.id === action.payload)
-            // state.setLikeValue = action.payload;
+        addLike: (state, action) => {
+            state.getLikesValue.push(action.payload);
+        },
+        removeLike: (state, action) => {
+            state.getLikesValue = state.getLikesValue.filter(element => element.id !== action.payload);
         }
     }
 });
 
-export const { getPosts, getLikes, setLike } = postSlice.actions;
+export const { getPosts, getLikes, addLike, removeLike } = postSlice.actions;
 export default postSlice.reducer;
