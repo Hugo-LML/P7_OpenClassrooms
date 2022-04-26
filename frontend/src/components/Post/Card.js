@@ -1,18 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { getUser, getUsers } from '../../features/user.slice';
 import { dateParser } from '../Utils';
 import LikeButton from './LikeButton';
+import { UidContext } from '../AppContext';
+import { editPost, deletePost } from '../../features/post.slice';
+import axios from 'axios';
+import CardComments from './CardComments';
 
 const Card = ({ post }) => {
     const [isLoading, setIsLoading] = useState(true);
-
-    const userData = useSelector(state => state.user.getUserValue);
+    const [isUpdated, setIsUpdated] = useState(false);
+    const [textUpdate, setTextUpdate] = useState(null);
+    const [showComments, setShowComments] = useState(false);
     const usersData = useSelector(state => state.user.getUsersValue);
     const commentsData = useSelector(state => state.comment.value);
-    const likesData = useSelector(state => state.post.getLikesValue);
     const dispatch = useDispatch();
+    const uid = useContext(UidContext);
+
+    const updateItem = () => {
+        if (textUpdate) {
+            axios.put(`${process.env.REACT_APP_API_URL}api/post/${post.id}`, {
+                message: textUpdate,
+                video: post.video
+            }, {withCredentials: true})
+                .then(res => {
+                    const dataObject = {postID: post.id, textUpdate}
+                    dispatch(editPost(dataObject));
+                    setIsUpdated(false);
+                })
+                .catch(err => console.log(err));
+        }
+    }
+
+    const deleteQuote = () => {
+        axios.delete(`${process.env.REACT_APP_API_URL}api/post/${post.id}`, {withCredentials: true})
+            .then(res => dispatch(deletePost(post.id)))
+            .catch(err => console.log(err));
+    }
 
     useEffect(() => {
         if (usersData !== null) {
@@ -20,7 +44,6 @@ const Card = ({ post }) => {
         }
     }, [usersData])
 
-    let counterLike = 0;
     let counterComment = 0;
     
     return (
@@ -48,11 +71,17 @@ const Card = ({ post }) => {
                         <p className='card__header__post-date'>{dateParser(post.date)}</p>
                     </div>
                     <div className="card__content">
-                        <p className='card__content__text'>{post.message}</p>
+                        {isUpdated === false && <p className='card__content__text'>{post.message}</p>}
+                        {isUpdated === true && (
+                            <div className='card__content__text-update'>
+                                <textarea defaultValue={post.message} onChange={e => setTextUpdate(e.target.value)} />
+                                <button onClick={updateItem}>Valider modification</button>
+                            </div>
+                        )}
                         {post.image !== "No img" &&
                             <img className='card__content__img' src={post.image} alt="card-pic" />
                         }
-                        {post.video !== "No video" &&
+                        {post.video.includes("https://www.youtube.com/") &&
                             <iframe className='card__content__video'
                                 width="500"
                                 height="300"
@@ -64,20 +93,35 @@ const Card = ({ post }) => {
                           ></iframe>
                         }
                     </div>
+                    {uid === post.poster_id && (
+                        <div className='card__action'>
+                            <div className="card__action__update-container">
+                                <img className='card__action__update-container__edit'
+                                src="./uploads/icons/pen-to-square-solid.svg" alt="edit" 
+                                onClick={() => setIsUpdated(!isUpdated)}
+                                />
+                            </div>
+                            <div className="card__action__delete-container">
+                                <img className='card__action__delete-container__suppress'
+                                src="./uploads/icons/trash-can-solid.svg" alt="suppress" 
+                                onClick={() => {
+                                    if (window.confirm("Voulez-vous supprimer ce post ?")) {
+                                        deleteQuote();
+                                    }
+                                }}
+                                />
+                            </div>
+                        </div>
+                    )}
                     <div className="card__footer">
                         <div className="card__footer__likes">
-                            {/* <img src="./uploads/icons/thumbs-up-regular.svg" alt="thumbs up" />
-                            {likesData.map(like => {
-                                if (like.postLiked_id === post.id) {
-                                    counterLike += 1;
-                                }
-                            })}
-                            <p>{counterLike}</p> */}
                             <LikeButton post={post} />
                         </div>
                         <div className="card__footer__comments">
-                            <img src="./uploads/icons/message-regular.svg" alt="message" />
-                            {commentsData.map(comment => {
+                            <img src="./uploads/icons/message-regular.svg" alt="comment"
+                            onClick={() => setShowComments(!showComments)}
+                            />
+                            {commentsData.forEach(comment => {
                                 if (comment.postCommented_id === post.id) {
                                     counterComment += 1;
                                 }
@@ -85,6 +129,7 @@ const Card = ({ post }) => {
                             <p>{counterComment}</p>
                         </div>
                     </div>
+                    {showComments && <CardComments post={post} />}
                 </>
             )}
         </div>

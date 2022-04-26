@@ -35,6 +35,24 @@
             object-fit: cover;
         }
     }
+    &__action {
+        display: flex;
+        justify-content: flex-end;
+        &__update-container {
+            &__edit {
+                width: 20px;
+                height: 20px;
+                margin-left: 10px;
+            }
+        }
+        &__delete-container {
+            &__suppress {
+                width: 20px;
+                height: 20px;
+                margin-left: 10px;
+            }
+        }
+    }
     &__footer {
         display: flex;
         justify-content: space-between;

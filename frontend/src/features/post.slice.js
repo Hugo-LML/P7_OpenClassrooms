@@ -18,9 +18,16 @@ export const postSlice = createSlice({
         },
         removeLike: (state, action) => {
             state.getLikesValue = state.getLikesValue.filter(element => element.id !== action.payload);
+        },
+        editPost: (state, action) => {
+            const postToEdit = state.getPostsValue.find(post => post.id === action.payload.postID);
+            postToEdit.message = action.payload.textUpdate;
+        },
+        deletePost: (state, action) => {
+            state.getPostsValue = state.getPostsValue.filter(element => element.id !== action.payload);
         }
     }
 });
 
-export const { getPosts, getLikes, addLike, removeLike } = postSlice.actions;
+export const { getPosts, getLikes, addLike, removeLike, editPost, deletePost } = postSlice.actions;
 export default postSlice.reducer;

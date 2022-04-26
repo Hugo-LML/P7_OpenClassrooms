@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UidContext } from '../AppContext';
 import axios from 'axios';
-import { getLikes, addLike, removeLike } from '../../features/post.slice';
+import { addLike, removeLike } from '../../features/post.slice';
 
 const LikeButton = ({ post }) => {
     const [liked, setLiked] = useState(false);
@@ -31,7 +31,7 @@ const LikeButton = ({ post }) => {
     const unlike = () => {
         axios.get(`${process.env.REACT_APP_API_URL}api/post/likeUnlike`, {withCredentials: true})
             .then(res => {
-                res.data.map(like => {
+                res.data.forEach(like => {
                     if (like.liker_id === uid && like.postLiked_id === post.id) {
                         axios.get(`${process.env.REACT_APP_API_URL}api/post/likeUnlike/getOneLike/${like.id}`, {withCredentials: true})
                             .then(res => {

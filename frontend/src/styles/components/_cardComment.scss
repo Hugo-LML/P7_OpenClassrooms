@@ -1,0 +1,29 @@
+.comments-container {
+    border: 1px solid red;
+    margin: 10px;
+    .comment {
+        background-color: yellow;
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            .info-commenter {
+                display: flex;
+                margin-bottom: 10px;
+                img {
+                    width: 20px;
+                    height: 20px;
+                }
+                p {
+                    font-weight: 900;
+                }
+            }
+            .comment-date {
+                font-style: italic;
+            }
+        }
+    }
+}
+
+.by-user {
+    background-color: darkorange !important;
+}
