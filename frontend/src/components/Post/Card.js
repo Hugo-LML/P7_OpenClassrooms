@@ -24,7 +24,7 @@ const Card = ({ post }) => {
                 video: post.video
             }, {withCredentials: true})
                 .then(res => {
-                    const dataObject = {postID: post.id, textUpdate}
+                    const dataObject = {postID: post.id, textUpdate};
                     dispatch(editPost(dataObject));
                     setIsUpdated(false);
                 })

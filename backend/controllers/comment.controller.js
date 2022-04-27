@@ -25,6 +25,20 @@ module.exports.createComment = (req, res, next) => {
     });
 }
 
+module.exports.updateComment = (req, res, next) => {
+    const message = req.body.message;
+    const id = req.params.id;
+    const sql = `UPDATE comments SET message=? WHERE id=?`;
+    db.query(sql, [message, id], (err, result) => {
+        if (err) {
+            res.status(400).json({err});
+        }
+        else {
+            res.status(200).json(result);
+        }
+    });
+}
+
 module.exports.deleteComment = (req, res, next) => {
     const id = req.params.id;
     const sql = `DELETE FROM comments WHERE id=?`;

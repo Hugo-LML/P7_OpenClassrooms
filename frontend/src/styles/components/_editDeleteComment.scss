@@ -1,0 +1,17 @@
+.edit-comment {
+    display: flex;
+    flex-direction: row-reverse;
+    &__editImg {
+        width: 20px;
+        height: 20px;
+        margin-bottom: 10px;
+    }
+    &__form {
+        margin-top: 10px;
+        width: 100%;
+        &__deleteImg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}

@@ -2,6 +2,9 @@ import React, { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UidContext } from '../AppContext';
 import { dateParser } from '../Utils';
+import axios from 'axios';
+import { getComments } from '../../features/comment.slice';
+import EditDeleteComment from './EditDeleteComment';
 
 const CardComments = ({ post }) => {
     const [text, setText] = useState("");
@@ -11,9 +14,32 @@ const CardComments = ({ post }) => {
     const dispatch = useDispatch();
 
     const handleComment = (e) => {
+        const userPseudo = usersData !== null &&
+            usersData.map((user) => {
+                if (user.id === post.poster_id) return user.pseudo;
+                else return null;
+            }).join("")
+        
+        const dataObject = {
+            commenter_id: uid,
+            postCommented_id: post.id,
+            pseudo: userPseudo,
+            message: text,
+            date: new Date().toISOString().slice(0, 10)
+        }
+
         e.preventDefault();
         if (text) {
-            // Coder ici come on big guy you're almost done
+            axios.post(`${process.env.REACT_APP_API_URL}api/comment`, dataObject, {withCredentials: true})
+                .then(res => {
+                    axios.get(`${process.env.REACT_APP_API_URL}api/comment`, {withCredentials: true})
+                        .then(res => {
+                            dispatch(getComments(res.data));
+                            setText("");
+                        })
+                        .catch(err => console.log(err));
+                })
+                .catch(err => console.log(err));
         }
     }
 
@@ -43,6 +69,7 @@ const CardComments = ({ post }) => {
                                 <p className='comment-date'>{dateParser(post.date)}</p>
                             </div>
                             <p>{comment.message}</p>
+                            <EditDeleteComment comment={comment} postId={post.id} />
                         </div>
                     )
                 }
