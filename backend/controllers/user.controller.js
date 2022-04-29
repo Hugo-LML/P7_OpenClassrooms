@@ -1,4 +1,5 @@
 const db = require('../config/database').getDB();
+// const jwt = require('jsonwebtoken');
 
 module.exports.getAllUsers = (req, res, next) => {
     const sql = `SELECT * FROM users`;
@@ -37,6 +38,25 @@ module.exports.updateUser = (req, res, next) => {
             res.status(200).json(result);
         }
     });
+}
+
+module.exports.updateUserPic = (req, res, next) => {
+    if (req.file) {
+        const pic = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+        const id = req.params.id;
+        const sql = `UPDATE users SET image=? WHERE id=?`;
+        db.query(sql, [pic, id], (err, result) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                res.status(200).json(result);
+            }
+        })
+    }
+    else {
+        console.log('No file');
+    }
 }
 
 module.exports.deleteUser = (req, res, next) => {

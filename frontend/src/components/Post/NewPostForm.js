@@ -24,7 +24,18 @@ const NewPostForm = () => {
             data.append('message', message);
             if (file) data.append('file', file);
             data.append('video', video);
-            data.append('date', new Date().toLocaleDateString('en-CA'))
+            data.append('date', new Date().toLocaleDateString('en-CA'));
+
+            if (file) {
+                if (!file.name.endsWith(".jpg") && !file.name.endsWith(".jpeg") && !file.name.endsWith(".png")) {
+                    alert("L'image doit être au format jpg/jpeg/png");
+                    return;
+                }
+                if (file.size > 1 * 1024 * 1024) {
+                    alert("L'image ne doit pas dépasser 5 mo");
+                    return;
+                }
+            }
 
             axios.post(`${process.env.REACT_APP_API_URL}api/post`, data, {withCredentials: true})
                 .then(res => {
@@ -49,20 +60,6 @@ const NewPostForm = () => {
         setVideo('');
     }
 
-    const handleVideo = () => {
-        let findLink = message.split(" ");
-        for (let i = 0; i < findLink.length; i++) {
-            if (findLink[i].includes('https://www.yout') || findLink[i].includes('https://yout')) {
-                let embed = findLink[i].replace("watch?v=", "embed/");
-                setVideo(embed.split('&')[0]);
-                findLink.splice(i, 1);
-                setMessage(findLink.join(" "));
-                setImg(null);
-                setFile(null);
-            }
-        }
-    }
-
     const cancelPost = () => {
         setMessage('');
         setImg('');
@@ -79,8 +76,23 @@ const NewPostForm = () => {
             	})
             	.catch((err) => console.log(err));
         }
+
+        const handleVideo = () => {
+            let findLink = message.split(" ");
+            for (let i = 0; i < findLink.length; i++) {
+                if (findLink[i].includes('https://www.yout') || findLink[i].includes('https://yout')) {
+                    let embed = findLink[i].replace("watch?v=", "embed/");
+                    setVideo(embed.split('&')[0]);
+                    findLink.splice(i, 1);
+                    setMessage(findLink.join(" "));
+                    setImg(null);
+                    setFile(null);
+                }
+            }
+        }
         handleVideo();
-    }, [uid, userData, dispatch, message, video])
+
+    }, [uid, dispatch, message])
 
     return (
         <div className='post-container'>
@@ -129,7 +141,10 @@ const NewPostForm = () => {
                                         <input type="file" id="file-upload" name="file" accept=".jpg, .jpeg, .png"
                                         onChange={e => handleImage(e)} />
                                         {img && (
-                                            <button onClick={() => setImg(null)}>Supprimer image</button>
+                                            <button onClick={() => {
+                                                setImg(null);
+                                                setFile(null);
+                                            }}>Supprimer image</button>
                                         )}
                                     </>
                                 )}

@@ -16,7 +16,7 @@ const CardComments = ({ post }) => {
     const handleComment = (e) => {
         const userPseudo = usersData !== null &&
             usersData.map((user) => {
-                if (user.id === post.poster_id) return user.pseudo;
+                if (user.id === uid) return user.pseudo;
                 else return null;
             }).join("")
         

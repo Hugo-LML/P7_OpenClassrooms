@@ -1,0 +1,14 @@
+.profil-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__update-img {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    }
+}

@@ -13,8 +13,30 @@ export const userSlice = createSlice({
         getUsers: (state, action) => {
             state.getUsersValue = action.payload;
         },
+        editUser: (state, action) => {
+            state.getUserValue.forEach(user => {
+                if (user.id === action.payload.id) {
+                    user.pseudo = action.payload.pseudo;
+                }
+            })
+            state.getUsersValue.forEach(user => {
+                if (user.id === action.payload.id) {
+                    user.pseudo = action.payload.pseudo;
+                }
+            })
+        },
+        deleteUser: (state, action) => {
+            state.getUserValue = null;
+            const arrayDelete = [];
+            state.getUsersValue.forEach(user => {
+                if (user.id !== action.payload) {
+                    arrayDelete.push(user);
+                }
+            });
+            state.getUsersValue = arrayDelete;
+        }
     }
 });
 
-export const { getUser, getUsers } = userSlice.actions;
+export const { getUser, getUsers, editUser, deleteUser } = userSlice.actions;
 export default userSlice.reducer;
