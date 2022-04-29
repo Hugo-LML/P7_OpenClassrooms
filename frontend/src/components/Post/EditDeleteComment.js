@@ -45,7 +45,7 @@ const EditDeleteComment = ({comment, postId}) => {
     return (
         <div className="edit-comment">
             {isAuthor && edit === false && (
-                <img src="./uploads/icons/pen-to-square-solid.svg" alt="edit" className='edit-comment__editImg'
+                <img src="./icons/pen-to-square-solid.svg" alt="edit" className='edit-comment__editImg'
                 onClick={() => setEdit(!edit)} />
             )}
             {isAuthor && edit && (
@@ -55,7 +55,7 @@ const EditDeleteComment = ({comment, postId}) => {
                     <input type="text" name="text" onChange={e => setText(e.target.value)} defaultValue={comment.message} />
                     <br />
                     <input type="submit" value="Valider modifications" />
-                    <img src="./uploads/icons/trash-can-solid.svg" alt="delete" className='edit-comment__form__deleteImg'
+                    <img src="./icons/trash-can-solid.svg" alt="delete" className='edit-comment__form__deleteImg'
                     onClick={() => {
                         if (window.confirm("Voulez-vous supprimer ce commentaire ?")) {
                             handleDelete();

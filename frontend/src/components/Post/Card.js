@@ -81,11 +81,11 @@ const Card = ({ post }) => {
                         {post.image !== "No img" &&
                             <img className='card__content__img' src={post.image} alt="card-pic" />
                         }
-                        {post.video.includes("https://www.youtube.com/") &&
+                        {(post.video.includes("https://www.yout") || post.video.includes("https://yout")) &&
                             <iframe className='card__content__video'
                                 width="500"
                                 height="300"
-                                src={(post.video).replace("watch?v=", "embed/")}
+                                src={post.video}
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
@@ -97,13 +97,13 @@ const Card = ({ post }) => {
                         <div className='card__action'>
                             <div className="card__action__update-container">
                                 <img className='card__action__update-container__edit'
-                                src="./uploads/icons/pen-to-square-solid.svg" alt="edit" 
+                                src="./icons/pen-to-square-solid.svg" alt="edit" 
                                 onClick={() => setIsUpdated(!isUpdated)}
                                 />
                             </div>
                             <div className="card__action__delete-container">
                                 <img className='card__action__delete-container__suppress'
-                                src="./uploads/icons/trash-can-solid.svg" alt="suppress" 
+                                src="./icons/trash-can-solid.svg" alt="suppress" 
                                 onClick={() => {
                                     if (window.confirm("Voulez-vous supprimer ce post ?")) {
                                         deleteQuote();
@@ -118,7 +118,7 @@ const Card = ({ post }) => {
                             <LikeButton post={post} />
                         </div>
                         <div className="card__footer__comments">
-                            <img src="./uploads/icons/message-regular.svg" alt="comment"
+                            <img src="./icons/message-regular.svg" alt="comment"
                             onClick={() => setShowComments(!showComments)}
                             />
                             {commentsData.forEach(comment => {

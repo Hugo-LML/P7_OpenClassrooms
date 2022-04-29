@@ -22,7 +22,7 @@ module.exports.createPost = (req, res, next) => {
         date: req.body.date
     }
     if (req.file) {
-        post.image = `${req.protocol}.//${req.get('host')}/images/${req.file.filename}`;
+        post.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
         const sql = `INSERT INTO posts (poster_id, message, image, video, date) VALUES (?, ?, ?, ?, ?)`;
         db.query(sql, [post.poster_id, post.message, post.image, post.video, post.date], (err, result) => {
             if (err) {

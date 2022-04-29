@@ -1,10 +1,11 @@
-import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { getUser } from '../../features/user.slice';
 import { UidContext } from '../AppContext';
 import { timestampParser } from '../Utils';
+import axios from 'axios';
+import { getPosts } from '../../features/post.slice';
 
 const NewPostForm = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -16,12 +17,50 @@ const NewPostForm = () => {
     const dispatch = useDispatch();
     const uid = useContext(UidContext);
 
-    const handleImage = () => {
+    const handlePost = () => {
+        if (message || img || video) {
+            const data = new FormData();
+            data.append('poster_id', userData[0].id);
+            data.append('message', message);
+            if (file) data.append('file', file);
+            data.append('video', video);
+            data.append('date', new Date().toLocaleDateString('en-CA'))
 
+            axios.post(`${process.env.REACT_APP_API_URL}api/post`, data, {withCredentials: true})
+                .then(res => {
+                    axios.get(`${process.env.REACT_APP_API_URL}api/post`, {withCredentials: true})
+                        .then(res => {
+                            dispatch(getPosts(res.data));
+                            cancelPost();
+                        })
+                        .catch(err => console.log(err));
+                })
+                .catch(err => console.log(err));
+                
+        }
+        else {
+            alert("Veuillez entrer un message");
+        }
     }
 
-    const handlePost = () => {
+    const handleImage = (e) => {
+        setImg(URL.createObjectURL(e.target.files[0]));
+        setFile(e.target.files[0]);
+        setVideo('');
+    }
 
+    const handleVideo = () => {
+        let findLink = message.split(" ");
+        for (let i = 0; i < findLink.length; i++) {
+            if (findLink[i].includes('https://www.yout') || findLink[i].includes('https://yout')) {
+                let embed = findLink[i].replace("watch?v=", "embed/");
+                setVideo(embed.split('&')[0]);
+                findLink.splice(i, 1);
+                setMessage(findLink.join(" "));
+                setImg(null);
+                setFile(null);
+            }
+        }
     }
 
     const cancelPost = () => {
@@ -40,7 +79,8 @@ const NewPostForm = () => {
             	})
             	.catch((err) => console.log(err));
         }
-    }, [uid, userData, dispatch])
+        handleVideo();
+    }, [uid, userData, dispatch, message, video])
 
     return (
         <div className='post-container'>
@@ -85,9 +125,12 @@ const NewPostForm = () => {
                             <div className="img-icon">
                                 {video === '' && (
                                     <>
-                                        <img src="./uploads/icons/file-image-solid.svg" alt="file-icon" />
+                                        <img src="./icons/file-image-solid.svg" alt="file-icon" />
                                         <input type="file" id="file-upload" name="file" accept=".jpg, .jpeg, .png"
                                         onChange={e => handleImage(e)} />
+                                        {img && (
+                                            <button onClick={() => setImg(null)}>Supprimer image</button>
+                                        )}
                                     </>
                                 )}
                                 {video && (

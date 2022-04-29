@@ -72,9 +72,9 @@ const LikeButton = ({ post }) => {
     return (
         <>
             {liked === false ? (
-                <img src="./uploads/icons/thumbs-up-regular.svg" alt="thumbs up" onClick={like}/>
+                <img src="./icons/thumbs-up-regular.svg" alt="thumbs up" onClick={like}/>
             ) : (
-                <img src="./uploads/icons/thumbs-up-solid.svg" alt="thumbs up" onClick={unlike}/>
+                <img src="./icons/thumbs-up-solid.svg" alt="thumbs up" onClick={unlike}/>
             )}
             <span>{likeCounter.length}</span>
         </>
