@@ -25,7 +25,7 @@ const Navbar = () => {
     return (
         <nav className='navbar'>
             <NavLink end to="/">
-                <img src="./img/icon-left-font-monochrome-black.svg" alt="logo" />
+                <img src="./img/icon-left-font.svg" alt="logo" />
             </NavLink>
             {uid && userData !== null ? (
                 <>

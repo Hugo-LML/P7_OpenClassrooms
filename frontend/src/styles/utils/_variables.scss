@@ -1,6 +1,6 @@
 @font-face {
-    font-family: "signia_pro";
-    src: url(../assets/fonts/signia_pro/SigniaPro-Bold.ttf);
+    font-family: "almarose";
+    src: url(../assets/fonts/almarose/Almarose-Bold.otf);
 }
 
 @font-face {
@@ -8,11 +8,8 @@
     src: url(../assets/fonts/lato/Lato-Regular.ttf);
 }
 
-$font-title: "signia_pro", sans-serif;
+$font-title: "almarose", sans-serif;
 $font-text: "lato", sans-serif;
 
-$main-color: #fd2d01;
-$secondary-color: #fcd4d3;
-
-$light-theme-color: #FFF;
-$dark-theme-color: rgba(0, 0, 0, 0.85);
+$color-main: #fd2d01;
+$color-secondary: #fcd4d3;
