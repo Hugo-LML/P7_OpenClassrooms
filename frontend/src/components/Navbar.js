@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { getUser } from '../features/user.slice';
@@ -8,9 +8,12 @@ import axios from 'axios';
 
 const Navbar = () => {
     const uid = useContext(UidContext);
+    const [width, setWidth] = useState(window.innerWidth);
 
     const dispatch = useDispatch();
     const userData = useSelector(state => state.user.getUserValue);
+
+    const updateDimensions = () => setWidth(window.innerWidth);
 
     useEffect(() => {
         if (uid) {
@@ -20,17 +23,30 @@ const Navbar = () => {
             	})
             	.catch((err) => console.log(err));
         }
+        
+        window.addEventListener("resize", updateDimensions);
+        return () => window.removeEventListener("resize", updateDimensions);
+
     }, [uid, dispatch]);
 
     return (
         <nav className='navbar'>
             <NavLink end to="/">
-                <img src="./img/icon-left-font.svg" alt="logo" />
+                {width > 768 ? (
+                    <img className='logo-home' src="./img/icon-left-font.svg" alt="logo-groupomania" />
+                ) : (
+                    <img className='logo-home' src="./img/icon.svg" alt="logo-groupomania" />
+                )}
             </NavLink>
             {uid && userData !== null ? (
+                
                 <div className='links'>
                     <NavLink end to="/profil">
-                        <p>Hello {userData[0].pseudo} !</p>
+                        {window.innerWidth > 768 ? (
+                            <p>Hello {userData[0].pseudo} !</p>
+                        ) : (
+                            <img className='nav-user-pic' src={userData[0].image} alt="user-pic" />
+                        )}
                     </NavLink>
                     <Logout />
                 </div>

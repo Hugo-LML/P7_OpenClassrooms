@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 40px;
+    margin: 40px 10px;
     &__card {
         background-color: $color-tertiary;
         border-radius: 20px;
@@ -11,6 +11,7 @@
         h1 {
             margin: 0 0 20px;
             font-family: $font-title;
+            font-size: 20px;
             text-align: center;
         }
         &__update-img {
@@ -19,6 +20,7 @@
             align-items: center;
             h3 {
                 margin-bottom: 10px;
+                font-size: 16px;
             }
             img {
                 width: 100px;

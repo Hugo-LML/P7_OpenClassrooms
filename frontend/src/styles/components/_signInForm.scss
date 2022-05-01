@@ -3,18 +3,21 @@
     width: 50%;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 20px;
+    @include tablet-format {
+        width: 100%;
+        margin-left: 0;
+    }
     .containerLabelInput {
         display: flex;
         flex-direction: column;
         width: 100%;
-        color: #FFF;
         label {
             margin-bottom: 10px;
         }
         input {
             margin-bottom: 10px;
-            border: none;
+            border: 1px solid $color-main;
             border-radius: 2px;
             padding: 4px;
             width: 100%;
@@ -32,14 +35,13 @@
             font-weight: 900;
             font-style: italic;
             margin-bottom: 10px;
-            color: $color-secondary;
         }
     }
     .submit {
         margin-bottom: 0;
         font-family: $font-title;
         padding: 10px;
-        background-color: $color-secondary;
+        background-color: $color-main;
         color: #FFF;
         cursor: pointer;
         outline: none;

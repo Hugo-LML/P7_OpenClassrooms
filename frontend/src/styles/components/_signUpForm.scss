@@ -2,18 +2,20 @@
     width: 50%;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 20px;
+    @include tablet-format {
+        width: 100%;
+    }
     .containerLabelInput {
         display: flex;
         flex-direction: column;
         width: 100%;
-        color: #FFF;
         label {
             margin-bottom: 10px;
         }
         input {
             margin-bottom: 10px;
-            border: none;
+            border: 1px solid $color-main;
             border-radius: 2px;
             padding: 4px;
             width: 100%;
@@ -31,34 +33,41 @@
             font-weight: 900;
             font-style: italic;
             margin-bottom: 10px;
-            color: $color-secondary;
         }
     }
     .cgu {
         margin-bottom: 10px;
-        color: #FFF;
         input {
             margin-right: 6px;
         }
         a {
-            color: #FFF;
+            color: #000;
         }
         .error {
             font-weight: 900;
             font-style: italic;
             margin-top: 10px;
-            color: $color-secondary;
         }
     }
     .submit {
         margin-bottom: 0;
         font-family: $font-title;
         padding: 10px;
-        background-color: $color-secondary;
+        background-color: $color-main;
         color: #FFF;
         cursor: pointer;
         outline: none;
         border: none;
         border-radius: 2px;
+    }
+}
+
+#signUp-succeed {
+    margin: 10px 20px 20px calc(50% + 20px);
+    @include tablet-format {
+        margin: 10px 20px 20px 20px;
+    }
+    @include phone-format {
+        margin: 10px 20px 20px 20px;
     }
 }

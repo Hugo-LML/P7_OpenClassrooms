@@ -8,6 +8,9 @@
     padding: 20px 0;
     border-radius: 10px;
     box-shadow: 0 1px 10px rgba(0, 0, 0, 0.25);
+    @include phone-format {
+        width: 100%;
+    }
     .user-info {
         display: flex;
         flex-direction: column;
@@ -16,10 +19,15 @@
         color: initial;
         margin-bottom: 10px;
         img {
-            width: 30px;
-            height: 30px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             object-fit: cover;
+            margin-bottom: 10px;
+            @include phone-format {
+                width: 40px;
+                height: 40px;
+            }
         }
         p {
             font-family: $font-title;
@@ -37,6 +45,9 @@
             margin-bottom: 10px;
             padding: 6px;
             border-radius: 2px;
+            @include phone-format {
+                width: 90%;
+            }
         }
         #message:focus {
             outline: none;
@@ -51,10 +62,14 @@
             border-radius: 2px;
             padding: 6px;
             margin-bottom: 10px;
+            @include phone-format {
+                width: 90%;
+            }
             .prev-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                flex-wrap: wrap;
                 .info-poster {
                     display: flex;
                     align-items: center;
@@ -102,6 +117,9 @@
         }
         .form-footer {
             width: 80%;
+            @include phone-format {
+                width: 90%;
+            }
             .file-gestion {
                 display: flex;
                 flex-direction: row-reverse;
