@@ -33,6 +33,16 @@ const EditDeleteComment = ({comment, postId}) => {
             .catch(err => console.log(err));
     }
 
+    const hoverIcons = (e) => {
+        const currentSrc = e.target.getAttribute('src');
+        e.target.setAttribute('src', currentSrc.replace("regular", "solid"));
+    }
+
+    const unhoverIcons = (e) => {
+        const currentSrc = e.target.getAttribute('src');
+        e.target.setAttribute('src', currentSrc.replace("solid", "regular"));
+    }
+
     useEffect(() => {
         const checkAuthor = () => {
             if (uid === comment.commenter_id) {
@@ -43,27 +53,32 @@ const EditDeleteComment = ({comment, postId}) => {
     }, [uid, comment.commenter_id]);
 
     return (
-        <div className="edit-comment">
-            {isAuthor && edit === false && (
-                <img src="./icons/pen-to-square-solid.svg" alt="edit" className='edit-comment__editImg'
-                onClick={() => setEdit(!edit)} />
+        <>
+            {isAuthor && (
+                <div className="container">
+                    <img src="./icons/pen-to-square-regular.svg" alt="edit" className='container__edit-img'
+                        onClick={() => setEdit(!edit)}
+                        onMouseOver={e => hoverIcons(e)}
+                        onMouseOut={e => unhoverIcons(e)} />
+                </div>
             )}
             {isAuthor && edit && (
-                <form onSubmit={handleEdit} className="edit-comment__form">
-                    <label htmlFor="text" onClick={() => setEdit(!edit)}>Éditer</label>
-                    <br />
-                    <input type="text" name="text" onChange={e => setText(e.target.value)} defaultValue={comment.message} />
-                    <br />
-                    <input type="submit" value="Valider modifications" />
-                    <img src="./icons/trash-can-solid.svg" alt="delete" className='edit-comment__form__deleteImg'
-                    onClick={() => {
-                        if (window.confirm("Voulez-vous supprimer ce commentaire ?")) {
-                            handleDelete();
-                        }
-                    }} />
-                </form>
+                <div className="edit-comment">
+                    <form onSubmit={handleEdit} className="edit-comment__form">
+                        <input type="text" name="text" onChange={e => setText(e.target.value)} defaultValue={comment.message} />
+                        <input type="submit" value="Valider modifications" className='edit-button'/>
+                        <img src="./icons/trash-can-regular.svg" alt="delete" className='edit-comment__form__deleteImg'
+                        onClick={() => {
+                            if (window.confirm("Voulez-vous supprimer ce commentaire ?")) {
+                                handleDelete();
+                            }
+                        }}
+                        onMouseOver={e => hoverIcons(e)}
+                        onMouseOut={e => unhoverIcons(e)} />
+                    </form>
+                </div>
             )}
-        </div>
+        </>
     );
 };
 

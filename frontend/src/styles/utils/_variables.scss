@@ -1,15 +1,16 @@
 @font-face {
-    font-family: "almarose";
+    font-family: "almarose-bold";
     src: url(../assets/fonts/almarose/Almarose-Bold.otf);
 }
 
 @font-face {
-    font-family: "lato";
-    src: url(../assets/fonts/lato/Lato-Regular.ttf);
+    font-family: "almarose-regular";
+    src: url(../assets/fonts/almarose/Almarose-Regular.otf);
 }
 
-$font-title: "almarose", sans-serif;
-$font-text: "lato", sans-serif;
+$font-title: "almarose-bold", sans-serif;
+$font-text: "almarose-regular", sans-serif;
 
 $color-main: #fd2d01;
-$color-secondary: #fcd4d3;
+$color-secondary: #56423D;
+$color-tertiary: #fcd4d3;

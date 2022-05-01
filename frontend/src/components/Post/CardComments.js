@@ -68,7 +68,7 @@ const CardComments = ({ post }) => {
                                 </div>
                                 <p className='comment-date'>{dateParser(comment.date)}</p>
                             </div>
-                            <p>{comment.message}</p>
+                            <p className='message'>{comment.message}</p>
                             <EditDeleteComment comment={comment} postId={post.id} />
                         </div>
                     )

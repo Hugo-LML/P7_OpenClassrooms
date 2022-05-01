@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import { getUser } from '../../features/user.slice';
 import { UidContext } from '../AppContext';
 import { timestampParser } from '../Utils';
 import axios from 'axios';
 import { getPosts } from '../../features/post.slice';
+import { NavLink } from 'react-router-dom';
 
 const NewPostForm = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -114,32 +114,44 @@ const NewPostForm = () => {
                                         <img src={userData[0].image} alt="user-pic" />
                                         <p>{userData[0].pseudo}</p>
                                     </div>
-                                    <p>{timestampParser(Date.now())}</p>
+                                    <p className='date'>{timestampParser(Date.now())}</p>
                                 </div>
                                 <div className="prev-content">
                                     <p>{message}</p>
                                     <img src={img} alt="" />
                                     {video && (
-                                        <iframe className='video'
-                                            width="500"
-                                            height="300"
+                                        <div className="video-container">
+                                            <iframe className='video'
                                             src={(video).replace("watch?v=", "embed/")}
                                             frameBorder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                             allowFullScreen
                                             title={video}
-                                        ></iframe>
+                                            ></iframe>
+                                        </div>
                                     )}
                                 </div>
                             </div>
                         ) : null}
                         <div className="form-footer">
-                            <div className="img-icon">
+                            <div className="file-gestion">
                                 {video === '' && (
                                     <>
-                                        <img src="./icons/file-image-solid.svg" alt="file-icon" />
-                                        <input type="file" id="file-upload" name="file" accept=".jpg, .jpeg, .png"
-                                        onChange={e => handleImage(e)} />
+                                        <div className="upload-file">
+                                            <img src="./icons/file-image-regular.svg" alt="file-icon" id='file-image-icon' />
+                                            <input type="file" id="file-upload" name="file" accept=".jpg, .jpeg, .png"
+                                            onChange={e => handleImage(e)}
+                                            onMouseOver={() => {
+                                                const icon = document.getElementById('file-image-icon');
+                                                const currentSrc = icon.getAttribute('src');
+                                                icon.setAttribute('src', currentSrc.replace("regular", "solid"));
+                                            }}
+                                            onMouseOut={() => {
+                                                const icon = document.getElementById('file-image-icon');
+                                                const currentSrc = icon.getAttribute('src');
+                                                icon.setAttribute('src', currentSrc.replace("solid", "regular"));
+                                            }} />
+                                        </div>
                                         {img && (
                                             <button onClick={() => {
                                                 setImg(null);
@@ -149,16 +161,19 @@ const NewPostForm = () => {
                                     </>
                                 )}
                                 {video && (
-                                    <button onClick={() => setVideo("")}>Supprimer vidéo</button>
+                                    <>
+                                        <span></span>
+                                        <button onClick={() => setVideo("")}>Supprimer vidéo</button>
+                                    </>
                                 )}
                             </div>
                             <div className="buttons">
                                 {message || img || video.length > 20 ? (
                                     <>
-                                        <button onClick={cancelPost}>Annuler</button>
-                                        <button onClick={handlePost}>Envoyer</button>
+                                        <button className='cancel' onClick={cancelPost}>Annuler</button>
+                                        <button className='send' onClick={handlePost}>Envoyer</button>
                                     </>
-                                ) : <button onClick={handlePost}>Envoyer</button>}
+                                ) : <button className='send' onClick={handlePost}>Envoyer</button>}
                             </div>
                         </div>
                     </div>

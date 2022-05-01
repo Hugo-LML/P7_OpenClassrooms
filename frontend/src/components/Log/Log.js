@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
 
 const Log = (props) => {
     const [signUpModal, setSignUpModal] = useState(props.signUp);
     const [signInModal, setSignInModal] = useState(props.signIn);
+    // SIGN IN === SE CONNECTER ___ SIGN UP = S'INSCRIRE
     
     const handleModals = (e) => {
         if (e.target.id === "register") {
@@ -17,9 +18,20 @@ const Log = (props) => {
         }
     }
 
+    useEffect(() => {
+        if (signUpModal) {
+            document.getElementById('login').classList.remove('active');
+            document.getElementById('register').classList.add('active');
+        }
+        if (signInModal) {
+            document.getElementById('login').classList.add('active');
+            document.getElementById('register').classList.remove('active');
+        }
+    }, [signUpModal, signInModal])
+
     return (
         <div className="profil-body">
-            <img src="./img/icon-above-font.svg" alt="logo-groupomania" />
+            <img src="./img/icon-above-font.svg" alt="logo-groupomania" className='logo' />
             <div className='form-auth'>
                 <ul>
                     <li onClick={handleModals} id="register">S'inscrire</li>

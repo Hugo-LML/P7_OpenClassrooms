@@ -28,12 +28,12 @@ const Navbar = () => {
                 <img src="./img/icon-left-font.svg" alt="logo" />
             </NavLink>
             {uid && userData !== null ? (
-                <>
+                <div className='links'>
                     <NavLink end to="/profil">
                         <p>Hello {userData[0].pseudo} !</p>
                     </NavLink>
                     <Logout />
-                </>
+                </div>
             ) : (
                 <NavLink end to="/profil">
                     <p>Go to login</p>

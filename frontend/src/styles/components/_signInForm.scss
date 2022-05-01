@@ -1,0 +1,49 @@
+#sign-in-form {
+    margin-left: 50%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    .containerLabelInput {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        color: #FFF;
+        label {
+            margin-bottom: 10px;
+        }
+        input {
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 2px;
+            padding: 4px;
+            width: 100%;
+        }
+        input:focus {
+            outline: none;
+        }
+        input:focus::placeholder {
+            color: transparent;
+        }
+        input::placeholder {
+            color: rgba($color: #000, $alpha: 0.2);
+        }
+        .error {
+            font-weight: 900;
+            font-style: italic;
+            margin-bottom: 10px;
+            color: $color-secondary;
+        }
+    }
+    .submit {
+        margin-bottom: 0;
+        font-family: $font-title;
+        padding: 10px;
+        background-color: $color-secondary;
+        color: #FFF;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        border-radius: 2px;
+    }
+}

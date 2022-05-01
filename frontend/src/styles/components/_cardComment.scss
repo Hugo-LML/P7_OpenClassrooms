@@ -1,29 +1,63 @@
 .comments-container {
-    border: 1px solid red;
-    margin: 10px;
+    margin-top: 10px;
     .comment {
-        background-color: yellow;
+        border-radius: 10px;
+        border: 1px solid $color-main;
+        padding: 20px;
+        margin-bottom: 10px;
         .comment-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
             .info-commenter {
                 display: flex;
-                margin-bottom: 10px;
+                align-items: center;
                 img {
-                    width: 20px;
-                    height: 20px;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin-right: 10px;
                 }
                 p {
-                    font-weight: 900;
+                    font-family: $font-title;
                 }
             }
             .comment-date {
                 font-style: italic;
             }
         }
+        .message {
+            margin-bottom: 10px;
+        }
+    }
+    .comment-form {
+        display: flex;
+        flex-direction: column;
+        input:first-child {
+            border: 1px solid $color-main;
+            padding: 6px;
+            border-radius: 2px;
+            margin-bottom: 10px;
+        }
+        input:first-child:focus {
+            outline: none;
+        }
+        input:last-child {
+            font-family: $font-title;
+            padding: 6px;
+            background-color: $color-main;
+            color: #FFF;
+            cursor: pointer;
+            outline: none;
+            border: none;
+            border-radius: 2px;
+        }
     }
 }
 
 .by-user {
-    background-color: darkorange !important;
+    background-color: $color-tertiary;
+    border: none !important;
 }

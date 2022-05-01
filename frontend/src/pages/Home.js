@@ -13,27 +13,28 @@ const Home = () => {
     return (
         <div className='home'>
             {uid ? (
-                <>
+                <div className='home__main'>
                     <NewPostForm />
                     <Thread />
-                </>
+                </div>
             ) : (
                 <>
-                    <img className='home__logo' src="./img/icon-left-font-monochrome-white.svg" alt="logo" />
-                    <div className="home__buttons">
-                        <NavLink onClick={() => dispatch(logUser(true))} end to='/profil'>
-                            <button>S'inscrire</button>
-                        </NavLink>
-                        <NavLink onClick={() => dispatch(logUser(false))} end to='/profil'>
-                            <button>Se connecter</button>
-                        </NavLink>
+                    <div className="home__landing-page">
+                        <img className='home__logo' src="./img/icon-left-font-monochrome-white.svg" alt="logo" />
+                        <div className="home__buttons">
+                            <NavLink onClick={() => dispatch(logUser(true))} end to='/profil'>
+                                <button>S'inscrire</button>
+                            </NavLink>
+                            <NavLink onClick={() => dispatch(logUser(false))} end to='/profil'>
+                                <button>Se connecter</button>
+                            </NavLink>
+                        </div>
+                        <img className='home__bg' src="./background/scott-graham-5fNmWej4tAA-unsplash.jpg" alt="bg" />
                     </div>
-                    <img className='home__bg' src="./background/scott-graham-5fNmWej4tAA-unsplash.jpg" alt="bg" />
-                </>
-                
+                </>  
             )}
         </div>
-    );
+    )
 };
 
 export default Home;

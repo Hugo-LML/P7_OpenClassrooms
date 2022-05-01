@@ -38,6 +38,16 @@ const Card = ({ post }) => {
             .catch(err => console.log(err));
     }
 
+    const hoverIcons = (e) => {
+        const currentSrc = e.target.getAttribute('src');
+        e.target.setAttribute('src', currentSrc.replace("regular", "solid"));
+    }
+
+    const unhoverIcons = (e) => {
+        const currentSrc = e.target.getAttribute('src');
+        e.target.setAttribute('src', currentSrc.replace("solid", "regular"));
+    }
+
     useEffect(() => {
         if (usersData !== null) {
             setIsLoading(false);
@@ -47,7 +57,7 @@ const Card = ({ post }) => {
     let counterComment = 0;
     
     return (
-        <div className='card'>
+        <div className='card' id='myCard'>
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
@@ -75,40 +85,46 @@ const Card = ({ post }) => {
                         {isUpdated === true && (
                             <div className='card__content__text-update'>
                                 <textarea defaultValue={post.message} onChange={e => setTextUpdate(e.target.value)} />
-                                <button onClick={updateItem}>Valider modification</button>
+                                <button onClick={updateItem}>Valider modifications</button>
                             </div>
                         )}
                         {post.image !== "No img" &&
                             <img className='card__content__img' src={post.image} alt="card-pic" />
                         }
                         {(post.video.includes("https://www.yout") || post.video.includes("https://yout")) &&
-                            <iframe className='card__content__video'
-                                width="500"
-                                height="300"
-                                src={post.video}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                title={post._id}
-                          ></iframe>
+                            <div className="card__content__container">
+                                <iframe className='card__content__container__video'
+                                    width="500"
+                                    height="300"
+                                    src={post.video}
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    title={post._id}
+                                ></iframe>
+                            </div>
                         }
                     </div>
                     {uid === post.poster_id && (
                         <div className='card__action'>
                             <div className="card__action__update-container">
                                 <img className='card__action__update-container__edit'
-                                src="./icons/pen-to-square-solid.svg" alt="edit" 
+                                src="./icons/pen-to-square-regular.svg" alt="edit" 
                                 onClick={() => setIsUpdated(!isUpdated)}
+                                onMouseOver={e => hoverIcons(e)}
+                                onMouseOut={e => unhoverIcons(e)}
                                 />
                             </div>
                             <div className="card__action__delete-container">
                                 <img className='card__action__delete-container__suppress'
-                                src="./icons/trash-can-solid.svg" alt="suppress" 
+                                src="./icons/trash-can-regular.svg" alt="suppress" 
                                 onClick={() => {
                                     if (window.confirm("Voulez-vous supprimer ce post ?")) {
                                         deleteQuote();
                                     }
                                 }}
+                                onMouseOver={e => hoverIcons(e)}
+                                onMouseOut={e => unhoverIcons(e)}
                                 />
                             </div>
                         </div>
@@ -120,6 +136,8 @@ const Card = ({ post }) => {
                         <div className="card__footer__comments">
                             <img src="./icons/message-regular.svg" alt="comment"
                             onClick={() => setShowComments(!showComments)}
+                            onMouseOver={e => hoverIcons(e)}
+                            onMouseOut={e => unhoverIcons(e)}
                             />
                             {commentsData.forEach(comment => {
                                 if (comment.postCommented_id === post.id) {
