@@ -41,24 +41,24 @@ const UpdateProfil = () => {
 
     return (
         <div className="profil-container">
-            <h1>Profil de {userData[0].pseudo}</h1>
-            <div className="profil-container__update-img">
-                <h3>Photo de profil</h3>
-                <img src={userData[0].image} alt="user-pic" />
-                <UploadImg />
+            <div className="profil-container__card">
+                <h1>Profil de {userData[0].pseudo}</h1>
+                <div className="profil-container__card__update-img">
+                    <h3>Photo de profil</h3>
+                    <img src={userData[0].image} alt="user-pic" />
+                    <UploadImg />
+                </div>
+                <form onSubmit={handlePseudo} className='profil-container__card__update-pseudo'>
+                    <input type="text" id="pseudo" name="pseudo"
+                    onChange={e => setPseudo(e.target.value)} value={pseudo} />
+                    <input type="submit" value="Valider" />
+                </form>
+                <button className='profil-container__card__delete-account' onClick={() => {
+                    if (window.confirm("Voulez-vous supprimer cet utilisateur ?")) {
+                        handleDelete();
+                    }
+                }}>Supprimer le compte</button>
             </div>
-            <form onSubmit={handlePseudo} className='profil-container__update-pseudo'>
-                <label htmlFor="pseudo">Changer de pseudo</label>
-                <input type="text" id="pseudo" name="pseudo"
-                onChange={e => setPseudo(e.target.value)} value={pseudo} />
-                <br />
-                <input type="submit" value="Envoyer" />
-            </form>
-            <button onClick={() => {
-                if (window.confirm("Voulez-vous supprimer cet utilisateur ?")) {
-                    handleDelete();
-                }
-            }}>Supprimer le compte</button>
         </div>
     );
 };
