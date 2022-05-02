@@ -1,5 +1,4 @@
 const db = require('../config/database').getDB();
-// const jwt = require('jsonwebtoken');
 
 module.exports.getAllUsers = (req, res, next) => {
     const sql = `SELECT * FROM users`;
