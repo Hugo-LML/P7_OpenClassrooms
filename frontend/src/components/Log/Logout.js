@@ -21,7 +21,7 @@ const Logout = () => {
         {window.innerWidth > 768 ? (
             <p onClick={logout} className='logout'>Se déconnecter</p>
         ) : (
-            <img className='logout-icon' src="./icons/arrow-right-from-bracket-solid.svg" alt="logout" />
+            <img onClick={logout} className='logout-icon' src="./icons/arrow-right-from-bracket-solid.svg" alt="logout" />
         )}
         </>
     );
